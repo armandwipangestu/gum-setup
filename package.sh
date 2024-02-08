@@ -32,5 +32,4 @@ for package in $SELECTED_PACKAGES; do
 done
 gum format < selected_packages.md
 #echo "Installing $SELECTED_PACKAGE...
-echo ""
-gum confirm && pkg i $SELECTED_PACKAGES || echo "  not installing packages"
+gum confirm && echo -e "" && pkg i $SELECTED_PACKAGES || echo -e "\n  not installing packages"

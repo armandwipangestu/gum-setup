@@ -1,3 +1,0 @@
-# Selected Packages
-- `fzf`
-- `neofetch`

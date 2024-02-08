@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-PACKAGES=(git fzf neofetch)
+PACKAGES=(git fzf neofetch awokwok)
 
 #echo "Choose a package to install:"
 #echo "NOTE: Use space to select and"
@@ -23,13 +23,31 @@ PACKAGES=(git fzf neofetch)
 #echo "Choose packages to install:"
 #IFS=" " read -ra SELECTED_PACKAGES <<< "$(gum choose --no-limit "${PACKAGES[@]}")"
 
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	'Gum Setup' 'by: @devnull'
+
 gum format < packages.md
 echo ""
 SELECTED_PACKAGES=$(gum choose --no-limit "${PACKAGES[@]}")
-echo "# Selected Packages" > selected_packages.md
+echo "# Confirm selected packages" > selected_packages.md
 for package in $SELECTED_PACKAGES; do
   echo "- \`$package\`" >> selected_packages.md
 done
 gum format < selected_packages.md
+
+installPkgs() {
+  for package in ${SELECTED_PACKAGES[@]}; do
+    gum spin --spinner moon --title "Installing ${package}" -- pkg i -y $package
+    if [ $? -eq 0 ]; then
+      gum log --time rfc822 --structured --level info "Installing success " package ${package}
+    else
+      gum log --time rfc822 --structured --level error "Installing failed" package ${package}
+    fi
+  done
+}
+
 #echo "Installing $SELECTED_PACKAGE...
-gum confirm && echo -e "" && pkg i $SELECTED_PACKAGES || echo -e "\n  not installing packages"
+#gum confirm && echo -e "" && pkg i $SELECTED_PACKAGES || echo -e "\n  not installing packages"
+gum confirm && echo -e "" && installPkgs || echo -e "\n  not installing packages"

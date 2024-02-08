@@ -1,4 +1,5 @@
-# Selected Packages
+# Confirm selected packages
 - `git`
 - `fzf`
 - `neofetch`
+- `awokwok`

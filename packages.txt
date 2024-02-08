@@ -1,0 +1,6 @@
+git
+fzf
+zsh
+bat
+exa
+neofetch

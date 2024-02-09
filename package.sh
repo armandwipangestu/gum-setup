@@ -24,26 +24,29 @@ PACKAGES=(git fzf neofetch awokwok)
 #IFS=" " read -ra SELECTED_PACKAGES <<< "$(gum choose --no-limit "${PACKAGES[@]}")"
 
 gum style \
-	--foreground 212 --border-foreground 212 --border double \
-	--align center --width 50 --margin "1 2" --padding "2 4" \
-	'Gum Setup' 'by: @devnull'
+  --foreground 212 --border-foreground 212 --border double \
+  --align center --width 50 --margin "1 2" --padding "2 4" \
+  'Gum Setup' 'by: @devnull'
 
-gum format < packages.md
+gum format <packages.md
 echo ""
 SELECTED_PACKAGES=$(gum choose --no-limit "${PACKAGES[@]}")
-echo "# Confirm selected packages" > selected_packages.md
+echo "# Confirm selected packages" >selected_packages.md
 for package in $SELECTED_PACKAGES; do
-  echo "- \`$package\`" >> selected_packages.md
+  echo "- \`$package\`" >>selected_packages.md
 done
-gum format < selected_packages.md
+gum format <selected_packages.md
 
 installPkgs() {
+  # shellcheck disable=SC2068
   for package in ${SELECTED_PACKAGES[@]}; do
-    gum spin --spinner moon --title "Installing ${package}" -- pkg i -y $package
-    if [ $? -eq 0 ]; then
-      gum log --time rfc822 --structured --level info "Installing success " package ${package}
+    if gum spin --spinner moon --title "Installing ${package}" -- sudo apt install -y "$package"; then
+      #if [ $? -eq 0 ]; then
+      gum log --time rfc822 --structured --level info "Installing success " package "${package}"
+      echo -e "$(date '+%d %b %y %H:%M %Z') INFO Installing success package=${package}" >>log.txt
     else
-      gum log --time rfc822 --structured --level error "Installing failed" package ${package}
+      gum log --time rfc822 --structured --level error "Installing failed" package "${package}"
+      echo -e "$(date '+%d %b %y %H:%M %Z') ERROR Installing failed package=${package}" >>log.txt
     fi
   done
 }

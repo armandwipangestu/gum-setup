@@ -1,0 +1,48 @@
+#!/bin/env bash
+
+# fzf
+alias preview="fzf --preview='bat --color=always --style=numbers --theme OneHalfDark {}' --preview-window=down"
+
+alias pg="ping google.com"
+
+# Largest Files
+alias largefile="du -h -x -s -- * | sort -r -h | head -20"
+
+# exa
+alias ls="exa --icons"
+alias la="exa --icons -lgha --group-directories-first"
+alias lt="exa --icons --tree"
+alias lta="exa --icons --tree -lgha"
+
+# bat
+alias bat="bat --theme OneHalfDark"
+# shellcheck disable=SC2145
+# shellcheck disable=SC2139
+alias cat="bat --theme OneHalfDark -p $@"
+
+# shell
+alias refresh="source ~/.zshrc"
+# shellcheck disable=SC2139
+alias unsource="exec $SHELL -l"
+
+# configuration
+# shellcheck disable=SC2139
+alias zshconf="$EDITOR ~/.zshrc"
+# shellcheck disable=SC2139
+alias bashconf="$EDITOR ~/.bashrc"
+
+# git
+alias gitgraph="git log --all --decorate --oneline --graph"
+alias gitupdate="git fetch && git pull"
+alias gitstat="git status"
+# shellcheck disable=SC2145
+# shellcheck disable=SC2139
+alias gitad="git add $@"
+# shellcheck disable=SC2145
+# shellcheck disable=SC2139
+alias gitcom="git commit -m '$@'"
+
+# service
+# shellcheck disable=SC2145
+# shellcheck disable=SC2139
+alias doService="sudo systemctl $@"

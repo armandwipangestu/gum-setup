@@ -41,9 +41,7 @@ function setup() {
     gum confirm
     GUM_CONFIRM_EXIT_CODE=$?
 
-    if [ $GUM_CONFIRM_EXIT_CODE -eq 0 ]; then
-        echo "" && echo -e "run setup"
-    else
+    if [ ! $GUM_CONFIRM_EXIT_CODE -eq 0 ]; then
         # Handle Interrupt
         if [ $GUM_CONFIRM_EXIT_CODE -eq 130 ]; then
             log fatal "Press any key to exit" signal interrupt
@@ -51,6 +49,7 @@ function setup() {
             exit 1
         fi
 
-        echo -e "not run setup"
+        log info "Not sure to run setup. Got cancel by user" confirm no
+        exit 1
     fi
 }

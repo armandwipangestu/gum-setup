@@ -16,9 +16,11 @@ function log() {
 
     gum log "${log_args[@]}"
 
+    local log_level="${1^^}" # convert level log to capital
+
     if [ -n "$3" ] && [ -n "$4" ]; then
-        echo -e "$(date '+%d %b %y %H:%M %Z') $1 $2 $3=${4}" >>log/"${LOG_FILE}"
+        echo -e "$(date '+%d %b %y %H:%M %Z') $log_level $2 $3=${4}" >>log/"${LOG_FILE}"
     else
-        echo -e "$(date '+%d %b %y %H:%M %Z') $1 $2" >>log/"${LOG_FILE}"
+        echo -e "$(date '+%d %b %y %H:%M %Z') $log_level $2" >>log/"${LOG_FILE}"
     fi
 }
